@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Estimated Venous Saturation Calculator</title>
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #f4f4f9;
+            margin: 40px;
+            color: #333;
+        }
+        h1, h2 {
+            color: #6200ea;
+        }
+        form {
+            background-color: #ffffff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            max-width: 500px;
+            margin: auto;
+        }
+        label {
+            display: block;
+            margin-bottom: 10px;
+            color: #333;
+        }
+        input {
+            width: calc(100% - 22px);
+            padding: 10px;
+            margin-bottom: 20px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        button {
+            background-color: #6200ea;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: bold;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #3700b3;
+        }
+    </style>
+</head>
+<body>
+    <h1>Calculate Estimated Venous Saturation</h1>
+    <form id="saturationForm">
+        <label for="heartRate">Heart Rate:</label>
+        <input type="number" id="heartRate" name="heartRate"><br>
+
+        <label for="cvp">Central Venous Pressure (CVP):</label>
+        <input type="number" id="cvp" name="cvp"><br>
+
+        <label for="cnirs">Cerebral NIRS (cNIRS):</label>
+        <input type="number" id="cnirs" name="cnirs"><br>
+
+        <label for="rnirs">Renal NIRS (rNIRS):</label>
+        <input type="number" id="rnirs" name="rnirs"><br>
+
+        <button type="button" onclick="calculateSaturation()">Calculate Saturation</button>
+    </form>
+    <h2>Estimated Venous Saturation: <span id="result"></span></h2>
+
+    <script>
+        function calculateSaturation() {
+            // Get values from form
+            var heartRate = document.getElementById("heartRate").value;
+            var cvp = document.getElementById("cvp").value;
+            var cnirs = document.getElementById("cnirs").value;
+            var rnirs = document.getElementById("rnirs").value;
+
+            // Model coefficients and intercept
+            var intercept = 35.144;
+            var coefHeartRate = -0.090;
+            var coefCVP = -0.153;
+            var coefCNIRS = 0.390;
+            var coefRNIRS = 0.318;
+
+            // Calculate estimated venous saturation
+            var estimatedSaturation = intercept + (coefHeartRate * heartRate) + 
+                                      (coefCVP * cvp) + (coefCNIRS * cnirs) + 
+                                      (coefRNIRS * rnirs);
+
+            // Display the result
+            document.getElementById("result").textContent = estimatedSaturation.toFixed(2);
+        }
+    </script>
+</body>
+</html>
+
